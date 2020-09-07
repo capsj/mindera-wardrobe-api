@@ -1,10 +1,12 @@
 import Library._
 
 libraryDependencies ++=
-//    caffeine ::
+  akkaStream ::
     playJson ::
     typeSafeConfig ::
     slick ::
+    slickPg ::
+    slickPgJson ::
     flyway ::
     postgres ::
     playSlick ::

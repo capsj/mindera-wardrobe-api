@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS clothing_item_outfit
     FOREIGN KEY (outfit_id) REFERENCES outfit (id)
 );
 
-CREATE VIEW vw_clothing_details
+CREATE VIEW vw_clothing_details AS
 SELECT ci.*,
-       COALESCE(c.name, '[]'::json) AS categories,
-       COALESCE(o.name, '[]'::json) AS outfits
+       COALESCE(json_agg(c.name), '[]'::json) AS categories,
+       COALESCE(json_agg(o.name), '[]'::json) AS outfits
 FROM clothing_item ci
          LEFT JOIN clothing_item_category cic on cic.clothing_item_id = ci.id
          LEFT JOIN category c ON c.id = cic.category_id

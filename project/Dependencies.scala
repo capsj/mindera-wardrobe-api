@@ -14,13 +14,14 @@ object Version {
   val refined            = "0.9.15"
   val scalaTest          = "3.2.0"
   val slick              = "3.3.2"
+  val slickPg            = "0.19.2"
   val typeSafeConfig     = "1.4.0"
 }
 
 object Library {
 
-  // Json
-  val playJson       = "com.typesafe.play" %% "play-json"        % Version.playJson
+  val akkaStream = "com.typesafe.akka" %% "akka-stream" % Version.akka
+  val playJson   = "com.typesafe.play" %% "play-json"   % Version.playJson
 //  val playJsonTraits = "io.leonard"        %% "play-json-traits" % "1.5.1"
 
   // Logging
@@ -28,7 +29,7 @@ object Library {
   val logstashEncoder = "net.logstash.logback" % "logstash-logback-encoder" % "6.3"
 
   // DI
-  val macwire     = "com.softwaremill.macwire" %% "macros"     % Version.macwire % Provided
+  val macwire = "com.softwaremill.macwire" %% "macros" % Version.macwire % Provided
 //  val macwireAkka = "com.softwaremill.macwire" %% "macrosakka" % Version.macwire % Provided
 
   // Config
@@ -38,20 +39,22 @@ object Library {
   val chimney = "io.scalaland" %% "chimney" % "0.5.3"
 
   // DB
-  val slick     = "com.typesafe.slick" %% "slick"                % Version.slick
-  val flyway    = "org.flywaydb"        % "flyway-core"          % Version.flyway
-  val postgres  = "org.postgresql" % "postgresql" % Version.postgresDriver
-  val playSlick = "com.typesafe.play"  %% "play-slick"           % "5.0.0"
+  val slick       = "com.typesafe.slick"  %% "slick"              % Version.slick
+  val flyway      = "org.flywaydb"         % "flyway-core"        % Version.flyway
+  val postgres    = "org.postgresql"       % "postgresql"         % Version.postgresDriver
+  val playSlick   = "com.typesafe.play"   %% "play-slick"         % "5.0.0"
+  val slickPg     = "com.github.tminglei" %% "slick-pg"           % Version.slickPg
+  val slickPgJson = "com.github.tminglei" %% "slick-pg_play-json" % Version.slickPg
 
   // Optics
 //  val quicklens = "com.softwaremill.quicklens"  % "quicklens_2.11" % "1.6.1"
 //  val monocle   = "com.github.julien-truffaut" %% "monocle-core"   % "2.0.4"
 
   // Test
-  val scalaTest          = "org.scalatest"          %% "scalatest"                   % "3.2.1"               % Test
-  val playScalaTest      = "org.scalatestplus.play" %% "scalatestplus-play"          % Version.playScalaTest % Test
-  val scalaMock          = "org.scalamock"          %% "scalamock"                   % "5.0.0"               % Test
-  val scalaCheck         = "org.scalacheck"         %% "scalacheck"                  % "1.14.3"              % Test
-  val scalaTestPlusCheck = "org.scalatestplus"      %% "scalacheck-1-14"             % "3.2.1.0"             % Test
+  val scalaTest          = "org.scalatest"          %% "scalatest"          % "3.2.1"               % Test
+  val playScalaTest      = "org.scalatestplus.play" %% "scalatestplus-play" % Version.playScalaTest % Test
+  val scalaMock          = "org.scalamock"          %% "scalamock"          % "5.0.0"               % Test
+  val scalaCheck         = "org.scalacheck"         %% "scalacheck"         % "1.14.3"              % Test
+  val scalaTestPlusCheck = "org.scalatestplus"      %% "scalacheck-1-14"    % "3.2.1.0"             % Test
 
 }
