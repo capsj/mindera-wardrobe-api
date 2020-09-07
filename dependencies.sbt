@@ -1,7 +1,7 @@
 import Library._
 
 libraryDependencies ++=
-  akkaStream ::
+//  akkaStream ::
     playJson ::
     typeSafeConfig ::
     slick ::

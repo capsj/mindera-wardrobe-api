@@ -1,7 +1,7 @@
 package models.data
 
-import slick.jdbc.JdbcBackend.Database
+import slick.jdbc.JdbcProfile
 
 trait DataRepository extends ClothingItemRepository with OutfitRepository with ClothingItemViewRepository with CategoryRepository {
-  def database: Database
+  def database: JdbcProfile#Backend#Database
 }

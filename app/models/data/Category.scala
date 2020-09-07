@@ -27,7 +27,7 @@ trait CategoryRepository {
 
     object actions {
       def insertOrUpdate(name: String) =
-        table.insertOrUpdate(CategoryRow(None, name, Instant.now(), Instant.now()))
+        table.returning(table).insertOrUpdate(CategoryRow(None, name))
     }
   }
 }

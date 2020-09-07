@@ -1,9 +1,8 @@
-package models
+package components
 
-import play.api.http.Writeable
-import play.api.libs.json.Format
-import play.api.libs.json.Json
-import play.api.libs.json.JsValue
+import play.api.http.Writeable._
+import play.api.http._
+import play.api.libs.json._
 
 object WritableInstances extends WritableInstances
 trait WritableInstances {

@@ -5,7 +5,6 @@ import scala.concurrent.Future
 
 import models.CustomError
 import models.ErrorResponseBody
-import models.WritableInstances
 import play.api.http.HttpErrorHandlerExceptions
 import play.api.http.JsonHttpErrorHandler
 import play.api.mvc.Results._

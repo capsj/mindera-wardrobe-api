@@ -4,4 +4,4 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /clothing/search                           controllers.ClothingController.search(term: String)
+GET     /clothing/search                           controllers.ClothingController.searchByName(term: String)

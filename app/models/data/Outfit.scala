@@ -36,7 +36,7 @@ trait OutfitRepository {
 
     object actions {
       def insertOrUpdateOutfit(name: String) =
-        outfitTable.insertOrUpdate(OutfitRow(None, name))
+        outfitTable.returning(outfitTable).insertOrUpdate(OutfitRow(None, name))
 
       def tagClothingItem(clothingItemId: Int, outfitId: Int) =
         clothingOutfitTable.insertOrUpdate(ClothingItemOutfitRow(None, clothingItemId, outfitId))

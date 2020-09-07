@@ -16,14 +16,14 @@ import slick.basic.DatabaseConfig
 import slick.jdbc.JdbcProfile
 
 trait DatabaseComponents {
-  def db: JdbcProfile#Backend#Database
+  def database: JdbcProfile#Backend#Database
   def profile: JdbcProfile
 }
 
 trait SlickDatabaseComponents extends DatabaseComponents with SlickComponents with Logging { this: BuiltInComponents =>
 
   lazy val slickConfig: DatabaseConfig[JdbcProfile] = slickApi.dbConfig[JdbcProfile](DbName("default"))
-  override lazy val db = slickConfig.db
+  override lazy val database = slickConfig.db
   override lazy val profile = slickConfig.profile
 
   private val dbConfig = slickConfig.config.getConfig("db")
