@@ -2,21 +2,20 @@ package models.data
 
 import java.time.Instant
 
-import slick.lifted.Query
 import slick.lifted.TableQuery
 import slick.lifted.Tag
 import CustomPostgresProfile.api._
 
-case class ClothingItemViewRow(clothingItemRow: ClothingItemRow, categories: Seq[String], outfits: Seq[String])
+case class ClothingItemViewRow(clothingItem: ClothingItemRow, categories: Seq[CategoryRow], outfits: Seq[OutfitRow])
 
-class ClothingItemViewTable(tag: Tag) extends Table[ClothingItemViewRow](tag, "clothing_item") {
+class ClothingItemViewTable(tag: Tag) extends Table[ClothingItemViewRow](tag, "vw_clothing_item_details") {
   import CustomPostgresProfile.api._
   def id         = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name       = column[String]("name")
   def uploadedAt = column[Instant]("uploaded_at")
   def updatedAt  = column[Instant]("updated_at")
-  def categories = column[Seq[String]]("categories")
-  def outfits    = column[Seq[String]]("outfits")
+  def categories = column[Seq[CategoryRow]]("categories")
+  def outfits    = column[Seq[OutfitRow]]("outfits")
 
   override def * =
     (id.?, name, uploadedAt, updatedAt, categories, outfits).shaped <> ({
@@ -27,13 +26,12 @@ class ClothingItemViewTable(tag: Tag) extends Table[ClothingItemViewRow](tag, "c
           outfits
         )
     }, { row: ClothingItemViewRow =>
-      import row.clothingItemRow
       Some(
         (
-          row.clothingItemRow.id,
-          row.clothingItemRow.name,
-          row.clothingItemRow.uploadedAt,
-          row.clothingItemRow.updatedAt,
+          row.clothingItem.id,
+          row.clothingItem.name,
+          row.clothingItem.uploadedAt,
+          row.clothingItem.updatedAt,
           row.categories,
           row.outfits))
     })

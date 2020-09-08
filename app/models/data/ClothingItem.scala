@@ -28,8 +28,8 @@ trait ClothingItemRepository {
     }
 
     object actions {
-      def insertOrUpdate(name: String) =
-        table.returning(table).insertOrUpdate(ClothingItemRow(None, name, Instant.now(), Instant.now()))
+      def insertOrUpdate(clothingItemRow: ClothingItemRow) =
+        table.returning(table).insertOrUpdate(clothingItemRow)
     }
   }
 }

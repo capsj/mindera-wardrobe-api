@@ -3,6 +3,7 @@ import Library._
 libraryDependencies ++=
 //  akkaStream ::
     playJson ::
+    cats ::
     typeSafeConfig ::
     slick ::
     slickPg ::
@@ -20,4 +21,5 @@ libraryDependencies ++=
     scalaMock ::
     scalaCheck ::
     scalaTestPlusCheck ::
+    kantan ::
     Nil

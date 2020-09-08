@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS clothing_item
 CREATE TABLE IF NOT EXISTS category
 (
     id   bigint NOT NULL PRIMARY KEY,
-    name text   NOT NULL
+    name text   NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS outfit
@@ -36,10 +36,10 @@ CREATE TABLE IF NOT EXISTS clothing_item_outfit
     FOREIGN KEY (outfit_id) REFERENCES outfit (id)
 );
 
-CREATE VIEW vw_clothing_details AS
+CREATE VIEW vw_clothing_item_details AS
 SELECT ci.*,
-       COALESCE(json_agg(c.name), '[]'::json) AS categories,
-       COALESCE(json_agg(o.name), '[]'::json) AS outfits
+       json_agg(COALESCE(row_to_json(c), '{}'::json)) AS categories,
+       json_agg(COALESCE(row_to_json(o), '{}'::json)) AS outfits
 FROM clothing_item ci
          LEFT JOIN clothing_item_category cic on cic.clothing_item_id = ci.id
          LEFT JOIN category c ON c.id = cic.category_id
@@ -47,3 +47,4 @@ FROM clothing_item ci
          LEFT JOIN outfit o ON o.id = cio.id
 GROUP BY ci.id
 ;
+

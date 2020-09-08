@@ -5,3 +5,9 @@
 
 # An example controller showing a sample home page
 GET     /clothing/search                           controllers.ClothingController.searchByName(term: String)
+
+GET     /clothing/view                             controllers.ClothingController.listClothingItems
+
+POST    /clothing/csv                              controllers.ClothingController.uploadCsv
+
+POST    /clothing/:itemId/tag                      controllers.ClothingController.tagClothes(itemId: Int, outfitName: String)

@@ -3,15 +3,12 @@ import sbt._
 object Version {
   val akka               = "2.6.8"
   val cats               = "2.1.1"
-  val enumeratum         = "1.6.1"
-  val enumeratumPlayJson = "1.6.1"
   val logback            = "1.2.3"
   val flyway             = "6.5.4"
   val macwire            = "2.3.7"
   val postgresDriver     = "42.2.5"
   val playJson           = "2.8.1"
   val playScalaTest      = "5.1.0"
-  val refined            = "0.9.15"
   val scalaTest          = "3.2.0"
   val slick              = "3.3.2"
   val slickPg            = "0.19.2"
@@ -22,7 +19,7 @@ object Library {
 
   val akkaStream = "com.typesafe.akka" %% "akka-stream" % Version.akka
   val playJson   = "com.typesafe.play" %% "play-json"   % Version.playJson
-//  val playJsonTraits = "io.leonard"        %% "play-json-traits" % "1.5.1"
+  val cats       = "org.typelevel"     %% "cats-core"   % Version.cats
 
   // Logging
   val logback         = "ch.qos.logback"       % "logback-classic"          % Version.logback
@@ -30,7 +27,6 @@ object Library {
 
   // DI
   val macwire = "com.softwaremill.macwire" %% "macros" % Version.macwire % Provided
-//  val macwireAkka = "com.softwaremill.macwire" %% "macrosakka" % Version.macwire % Provided
 
   // Config
   val typeSafeConfig = "com.typesafe" % "config" % Version.typeSafeConfig
@@ -46,10 +42,6 @@ object Library {
   val slickPg     = "com.github.tminglei" %% "slick-pg"           % Version.slickPg
   val slickPgJson = "com.github.tminglei" %% "slick-pg_play-json" % Version.slickPg
 
-  // Optics
-//  val quicklens = "com.softwaremill.quicklens"  % "quicklens_2.11" % "1.6.1"
-//  val monocle   = "com.github.julien-truffaut" %% "monocle-core"   % "2.0.4"
-
   // Test
   val scalaTest          = "org.scalatest"          %% "scalatest"          % "3.2.1"               % Test
   val playScalaTest      = "org.scalatestplus.play" %% "scalatestplus-play" % Version.playScalaTest % Test
@@ -57,4 +49,6 @@ object Library {
   val scalaCheck         = "org.scalacheck"         %% "scalacheck"         % "1.14.3"              % Test
   val scalaTestPlusCheck = "org.scalatestplus"      %% "scalacheck-1-14"    % "3.2.1.0"             % Test
 
+  // Csv
+  val kantan = "com.nrinaudo" %% "kantan.csv" % "0.6.0"
 }
