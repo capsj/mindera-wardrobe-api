@@ -1,26 +1,22 @@
 package models.data
 
-import java.time.Instant
-
 import slick.lifted.TableQuery
 import slick.lifted.Tag
 import CustomPostgresProfile.api._
-import play.api.libs.json.Format
-import play.api.libs.json.Json
+import models.CategoryId
+import models.CategoryName
 
-case class CategoryRow(id: Option[Int], name: String)
+case class CategoryRow(id: CategoryId, name: CategoryName)
 case class ClothingItemCategoryRow(id: Option[Int], clothingItemId: Int, categoryId: Int)
 
-class CategoryTable(tag: Tag) extends Table[CategoryRow](tag, "category") {
-  import CustomPostgresProfile.api._
+class CategoryTable(tag: Tag) extends Table[CategoryRow](tag, Some("public"), "category") {
   def id   = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
 
-  override def * = (id.?, name).mapTo[CategoryRow]
+  override def * = (id, name).mapTo[CategoryRow]
 }
 
-class ClothingItemCategoryTable(tag: Tag) extends Table[ClothingItemCategoryRow](tag, "clothing_item_category") {
-  import CustomPostgresProfile.api._
+class ClothingItemCategoryTable(tag: Tag) extends Table[ClothingItemCategoryRow](tag, Some("public"), "clothing_item_category") {
   def id             = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def clothingItemId = column[Int]("clothing_item_id")
   def categoryId     = column[Int]("category_id")
@@ -39,8 +35,8 @@ trait CategoryRepository {
     }
 
     object actions {
-      def insertOrUpdate(categoryRow: CategoryRow) =
-        table.returning(table).insertOrUpdate(categoryRow)
+      def insertOrUpdate(categoryName: CategoryName) =
+        table.map(_.name).returning(table.map(_.id)) += categoryName
 
       def insertOrUpdate(clothingItemCategoryRow: ClothingItemCategoryRow) =
         clothingItemCategoryTable.insertOrUpdate(clothingItemCategoryRow)

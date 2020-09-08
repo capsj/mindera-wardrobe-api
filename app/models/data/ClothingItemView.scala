@@ -8,7 +8,7 @@ import CustomPostgresProfile.api._
 
 case class ClothingItemViewRow(clothingItem: ClothingItemRow, categories: Seq[CategoryRow], outfits: Seq[OutfitRow])
 
-class ClothingItemViewTable(tag: Tag) extends Table[ClothingItemViewRow](tag, "vw_clothing_item_details") {
+class ClothingItemViewTable(tag: Tag) extends Table[ClothingItemViewRow](tag, Some("public"), "vw_clothing_item_details") {
   import CustomPostgresProfile.api._
   def id         = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name       = column[String]("name")

@@ -1,26 +1,26 @@
 CREATE TABLE IF NOT EXISTS clothing_item
 (
-    id          bigint NOT NULL PRIMARY KEY,
-    name        text   NOT NULL,
-    uploaded_at TIMESTAMP without TIME ZONE NOT NULL,
-    updated_at  TIMESTAMP without TIME ZONE NOT NULL
+    id          SERIAL NOT NULL PRIMARY KEY,
+    name        text   NOT NULL UNIQUE,
+    uploaded_at TIMESTAMP without TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at  TIMESTAMP without TIME ZONE NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS category
 (
-    id   bigint NOT NULL PRIMARY KEY,
-    name text   NOT NULL UNIQUE
+    id   SERIAL NOT NULL PRIMARY KEY,
+    name text   NOT NULL UNIQUE UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS outfit
 (
-    id   bigint NOT NULL PRIMARY KEY,
-    name text   NOT NULL
+    id   SERIAL NOT NULL PRIMARY KEY,
+    name text   NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS clothing_item_category
 (
-    id               bigint NOT NULL PRIMARY KEY,
+    id               SERIAL NOT NULL PRIMARY KEY,
     clothing_item_id bigint NOT NULL,
     category_id      bigint NOT NULL,
     FOREIGN KEY (clothing_item_id) REFERENCES clothing_item (id),
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS clothing_item_category
 
 CREATE TABLE IF NOT EXISTS clothing_item_outfit
 (
-    id               bigint NOT NULL PRIMARY KEY,
+    id               SERIAL NOT NULL PRIMARY KEY,
     clothing_item_id bigint NOT NULL,
     outfit_id        bigint NOT NULL,
     FOREIGN KEY (clothing_item_id) REFERENCES clothing_item (id),

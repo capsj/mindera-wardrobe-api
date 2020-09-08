@@ -7,7 +7,6 @@ import scala.util.Success
 import scala.util.Try
 
 import org.flywaydb.core.Flyway
-import org.flywaydb.core.internal.exception.FlywaySqlException
 import play.api.Logging
 import play.api.db.slick.DbName
 import play.api.BuiltInComponents
@@ -34,7 +33,7 @@ trait SlickDatabaseComponents extends DatabaseComponents with SlickComponents wi
 
   lazy val cleanDb = Try(dbConfig.getBoolean("clean")).getOrElse(false)
 
-  final def migrateDatabase(doClean: Boolean = true): Unit = {
+  final def migrateDatabase(doClean: Boolean = true): Unit =
     Try(performMigration(doClean)) match {
       case Success(migrationsApplied: Int) =>
         logger.info(s"Migration completed successfully: applied $migrationsApplied migrations")
@@ -44,7 +43,6 @@ trait SlickDatabaseComponents extends DatabaseComponents with SlickComponents wi
         logger.error("Error during migration.", ex)
         Await.result(application.stop(), FiniteDuration(10, "s"))
     }
-  }
 
   private def performMigration(doClean: Boolean): Int = {
     val flyway = Flyway

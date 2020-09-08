@@ -4,11 +4,12 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 import akka.Done
-import cats.data.OptionT
-import cats.instances.future._
+import models.CategoryName
+import models.ClothingItemName
+import play.api.Logging
 
 trait DataService {
-  def insertClothingItem(clothingItemRow: ClothingItemRow, categoryRow: CategoryRow): Future[Done]
+  def insertClothingItem(clothingItemName: ClothingItemName, categoryName: CategoryName): Future[Done]
   def searchByName(name: String): Future[Seq[ClothingItemRow]]
 
   def tagClothingItem(clothingItemId: Int, outfitId: Int): Future[Done]
@@ -19,18 +20,16 @@ class DataServiceImpl(
   dataRepository: DataRepository
 )(implicit executionContext: ExecutionContext)
   extends DataService {
-
   lazy val db = dataRepository.database
 
-  override def insertClothingItem(clothingItemRow: ClothingItemRow, categoryRow: CategoryRow): Future[Done] =
-    (for {
-      clothingItem   <- OptionT(db.run(dataRepository.clothingItem.actions.insertOrUpdate(clothingItemRow)))
-      category       <- OptionT(db.run(dataRepository.category.actions.insertOrUpdate(categoryRow)))
-      clothingItemId <- OptionT.fromOption[Future](clothingItem.id)
-      categoryId     <- OptionT.fromOption[Future](category.id)
-      _              <- OptionT.liftF(db.run(dataRepository.category.actions.insertOrUpdate(ClothingItemCategoryRow(None, clothingItemId, categoryId))))
-    } yield Done)
-      .fold(Done)(identity)
+  override def insertClothingItem(clothingItemName: ClothingItemName, categoryName: CategoryName): Future[Done] =
+    db.run {
+      for {
+        clothingItemId <- dataRepository.clothingItem.actions.insertOrUpdate(clothingItemName)
+        categoryId     <- dataRepository.category.actions.insertOrUpdate(categoryName)
+        _              <- dataRepository.category.actions.insertOrUpdate(ClothingItemCategoryRow(None, clothingItemId, categoryId))
+      } yield Done
+    }
 
   override def searchByName(name: String): Future[Seq[ClothingItemRow]] =
     db.run(dataRepository.clothingItem.queries.byName(name))

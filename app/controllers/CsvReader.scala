@@ -1,13 +1,11 @@
 package controllers
 
-import java.time.Instant
-
 import akka.stream.scaladsl.Source
 import akka.NotUsed
 import akka.stream.scaladsl.Flow
 import kantan.csv._
-import models.api.Category
-import models.api.ClothingItem
+import models.ClothingItemName
+import models.CategoryName
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.MultipartFormData.FilePart
 
@@ -16,27 +14,27 @@ object CsvReader {
 
   case class CSVRow(clothingItemName: String, categoryName: String)
   object CSVRow {
-    implicit val CSVRowDecoder: RowDecoder[CSVRow] = RowDecoder.ordered {
-      (clothingItemName: String, categoryName: String) => CSVRow(clothingItemName, categoryName)
+    implicit val CSVRowDecoder: RowDecoder[CSVRow] = RowDecoder.ordered { (clothingItemName: String, categoryName: String) =>
+      CSVRow(clothingItemName, categoryName)
     }
   }
 
   def parseCsv(filePart: FilePart[TemporaryFile]): Source[ReadResult[CSVRow], NotUsed] =
-    Source.fromIterator( () => {
+    Source.fromIterator { () =>
       filePart.ref.path.toFile
-        .asCsvReader[CSVRow](rfc)
+        .asCsvReader[CSVRow](rfc.withHeader(true))
         .iterator
-    })
+    }
 
-  type ApiModels = (ClothingItem, Category)
+  type ApiModels = (ClothingItemName, CategoryName)
   def csvRowToModels: Flow[ReadResult[CSVRow], Option[ApiModels], _] =
     Flow[ReadResult[CSVRow]]
-      .map({ readResult =>
+      .map { readResult =>
         (for {
           line <- readResult
-          clothingItem = ClothingItem(None, line.clothingItemName, Instant.now, Instant.now)
-          category = Category(None, line.categoryName)
-        } yield (clothingItem, category)).toOption
-      })
+          clothingItemName = line.clothingItemName
+          categoryName     = line.categoryName
+        } yield (clothingItemName, categoryName)).toOption
+      }
 
 }

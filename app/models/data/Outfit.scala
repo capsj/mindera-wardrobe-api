@@ -7,16 +7,14 @@ import CustomPostgresProfile.api._
 case class OutfitRow(id: Option[Int], name: String)
 case class ClothingItemOutfitRow(id: Option[Int], clothingItemId: Int, outfitId: Int)
 
-class OutfitTable(tag: Tag) extends Table[OutfitRow](tag, "outfit") {
-  import CustomPostgresProfile.api._
+class OutfitTable(tag: Tag) extends Table[OutfitRow](tag, Some("public"), "outfit") {
   def id   = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name = column[String]("name")
 
   override def * = (id.?, name).mapTo[OutfitRow]
 }
 
-class ClothingItemOutfitTable(tag: Tag) extends Table[ClothingItemOutfitRow](tag, "clothing_item_outfit") {
-  import CustomPostgresProfile.api._
+class ClothingItemOutfitTable(tag: Tag) extends Table[ClothingItemOutfitRow](tag, Some("public"), "clothing_item_outfit") {
   def id             = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def clothingItemId = column[Int]("clothing_item_id")
   def outfitId       = column[Int]("outfit_id")

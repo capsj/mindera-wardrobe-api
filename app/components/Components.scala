@@ -15,13 +15,12 @@ import router.Routes
 
 class Components(context: Context)
   extends BuiltInComponentsFromContext(context)
-    with AhcWSComponents
-    with SlickDatabaseComponents
-    with AssetsComponents
-    with HttpComponents {
+  with AhcWSComponents
+  with SlickDatabaseComponents
+  with AssetsComponents
+  with HttpComponents {
 
-//  implicit lazy val clock: Clock                      = Clock.defaultClock
-  lazy val config: Config                             = configuration.underlying
+  lazy val config: Config = configuration.underlying
   lazy val dataRepository: DataRepository = new DataRepository {
     override val database = Components.this.database
   }
@@ -36,4 +35,3 @@ class Components(context: Context)
 
   migrateDatabase()
 }
-

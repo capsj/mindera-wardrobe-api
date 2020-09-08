@@ -30,6 +30,7 @@ class ClothingController(cc: ControllerComponents, dataService: DataService)(imp
 
   def searchByName(term: String): Action[AnyContent] =
     Action.async { _ =>
+      logger.info(s"searchByName called")
       dataService
         .searchByName(term)
         .map(_.map(_.transformInto[ClothingItem]))
@@ -53,8 +54,8 @@ class ClothingController(cc: ControllerComponents, dataService: DataService)(imp
             .parseCsv(file)
             .via(CsvReader.csvRowToModels)
             .map({
-              case Some((clothingItem, category)) =>
-                dataService.insertClothingItem(clothingItem.transformInto[ClothingItemRow], category.transformInto[CategoryRow])
+              case Some((clothingItemName, categoryName)) =>
+                dataService.insertClothingItem(clothingItemName, categoryName)
               case None =>
                 Future.successful(Done)
             })

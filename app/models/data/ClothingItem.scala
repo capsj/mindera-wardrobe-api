@@ -5,11 +5,13 @@ import java.time.Instant
 import slick.lifted.TableQuery
 import slick.lifted.Tag
 import CustomPostgresProfile.api._
+import models.ClothingItemId
+import models.ClothingItemName
+import play.api.Logging
 
-case class ClothingItemRow(id: Option[Int], name: String, uploadedAt: Instant, updatedAt: Instant)
+case class ClothingItemRow(id: Option[ClothingItemId] = None, name: ClothingItemName, uploadedAt: Instant, updatedAt: Instant)
 
-class ClothingItemTable(tag: Tag) extends Table[ClothingItemRow](tag, "clothing_item") {
-  import CustomPostgresProfile.api._
+class ClothingItemTable(tag: Tag) extends Table[ClothingItemRow](tag, Some("public"), "clothing_item") {
   def id         = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def name       = column[String]("name")
   def uploadedAt = column[Instant]("uploaded_at")
@@ -18,18 +20,18 @@ class ClothingItemTable(tag: Tag) extends Table[ClothingItemRow](tag, "clothing_
   override def * = (id.?, name, uploadedAt, updatedAt).mapTo[ClothingItemRow]
 }
 
-trait ClothingItemRepository {
+trait ClothingItemRepository extends Logging {
   object clothingItem {
     val table = TableQuery[ClothingItemTable]
 
     object queries {
-      def byName(name: String) =
+      def byName(name: ClothingItemName) =
         table.filter(row => row.name.like(name)).result
     }
 
     object actions {
-      def insertOrUpdate(clothingItemRow: ClothingItemRow) =
-        table.returning(table).insertOrUpdate(clothingItemRow)
+      def insertOrUpdate(clothingItemName: ClothingItemName) =
+        table.map(_.name).returning(table.map(_.id)) += clothingItemName
     }
   }
 }
