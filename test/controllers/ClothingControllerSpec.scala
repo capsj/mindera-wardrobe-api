@@ -117,7 +117,7 @@ class ClothingControllerSpec extends ControllerSpec with ScalaFutures {
       .expects(clothingItemId, outfitName)
       .returns(Future.successful(Done))
 
-    val fakeRequest = FakeRequest(routes.ClothingController.tagClothes(clothingItemId, outfitName))
+    val fakeRequest = FakeRequest(routes.ClothingController.tagClothingItem(clothingItemId, outfitName))
     inside(route(app, fakeRequest)) {
       case Some(result) =>
         status(result) shouldEqual OK
