@@ -14,21 +14,20 @@ import models.api.ClothingItem
 import models.api.ClothingItemView
 import models.data.DataService
 import play.api.mvc.ControllerComponents
-import play.api.Logging
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.AbstractController
 import play.api.mvc.Action
 import play.api.mvc.AnyContent
 import play.api.mvc.MultipartFormData
 
-class ClothingController(cc: ControllerComponents, dataService: DataService)(implicit ec: ExecutionContext, materializer: Materializer)
-  extends AbstractController(cc)
-  with WritableInstances
-  with Logging {
+class ClothingController(cc: ControllerComponents, dataService: DataService, csvReader: CsvReader)(implicit
+  ec: ExecutionContext,
+  materializer: Materializer
+) extends AbstractController(cc)
+  with WritableInstances {
 
   def searchByName(term: String): Action[AnyContent] =
     Action.async { _ =>
-      logger.info(s"searchByName called")
       dataService
         .searchByName(term)
         .map(_.map(_.transformInto[ClothingItem]))
@@ -48,11 +47,10 @@ class ClothingController(cc: ControllerComponents, dataService: DataService)(imp
       (for {
         file <- EitherT.fromOption[Future](request.body.files.headOption, BadRequest(""))
         source =
-          CsvReader
+          csvReader
             .parseCsv(file)
-            .via(CsvReader.csvRowToModels)
             .map({
-              case Some((clothingItemName, categoryName)) =>
+              case Some(CsvRow(clothingItemName, categoryName)) =>
                 dataService.insertClothingItem(clothingItemName, categoryName)
               case None =>
                 Future.successful(Done)
@@ -67,7 +65,8 @@ class ClothingController(cc: ControllerComponents, dataService: DataService)(imp
 
   def tagClothes(itemId: Int, outfitName: String) =
     Action.async { _ =>
-      dataService.tagClothingItem(itemId, outfitName)
+      dataService
+        .tagClothingItem(itemId, outfitName)
         .map(_ => Ok)
     }
 

@@ -9,7 +9,7 @@ import models.ClothingItemId
 import models.ClothingItemName
 import play.api.Logging
 
-case class ClothingItemRow(id: Option[ClothingItemId] = None, name: ClothingItemName, uploadedAt: Instant, updatedAt: Instant)
+case class ClothingItemRow(id: ClothingItemId, name: ClothingItemName, uploadedAt: Instant, updatedAt: Instant)
 
 class ClothingItemTable(tag: Tag) extends Table[ClothingItemRow](tag, Some("public"), "clothing_item") {
   def id         = column[Int]("id", O.PrimaryKey, O.AutoInc)
@@ -17,7 +17,7 @@ class ClothingItemTable(tag: Tag) extends Table[ClothingItemRow](tag, Some("publ
   def uploadedAt = column[Instant]("uploaded_at")
   def updatedAt  = column[Instant]("updated_at")
 
-  override def * = (id.?, name, uploadedAt, updatedAt).mapTo[ClothingItemRow]
+  override def * = (id, name, uploadedAt, updatedAt).mapTo[ClothingItemRow]
 }
 
 trait ClothingItemRepository extends Logging {

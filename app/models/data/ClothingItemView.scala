@@ -18,7 +18,7 @@ class ClothingItemViewTable(tag: Tag) extends Table[ClothingItemViewRow](tag, So
   def outfits    = column[Seq[OutfitRow]]("outfits")
 
   override def * =
-    (id.?, name, uploadedAt, updatedAt, categories, outfits).shaped <> ({
+    (id, name, uploadedAt, updatedAt, categories, outfits).shaped <> ({
       case (id, name, uploadedAt, updatedAt, categories, outfits) =>
         ClothingItemViewRow(
           ClothingItemRow(id, name, uploadedAt, updatedAt),

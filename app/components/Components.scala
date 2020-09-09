@@ -4,12 +4,15 @@ import com.softwaremill.macwire.wire
 import com.typesafe.config.Config
 import controllers.AssetsComponents
 import controllers.ClothingController
+import controllers.CsvReader
+import controllers.CsvReaderImpl
 import models.data.DataRepository
 import models.data.DataService
 import models.data.DataServiceImpl
 import play.api.ApplicationLoader.Context
 import play.api.BuiltInComponentsFromContext
 import play.api.libs.ws.ahc.AhcWSComponents
+import play.api.mvc.EssentialFilter
 import play.api.routing.Router
 import router.Routes
 
@@ -17,10 +20,12 @@ class Components(context: Context)
   extends BuiltInComponentsFromContext(context)
   with AhcWSComponents
   with SlickDatabaseComponents
-  with AssetsComponents
-  with HttpComponents {
+  with AssetsComponents {
 
-  lazy val config: Config = configuration.underlying
+  override def httpFilters: Seq[EssentialFilter] = Seq.empty
+
+  lazy val config: Config       = configuration.underlying
+  lazy val csvReader: CsvReader = wire[CsvReaderImpl]
   lazy val dataRepository: DataRepository = new DataRepository {
     override val database = Components.this.database
   }
@@ -33,5 +38,5 @@ class Components(context: Context)
     wire[Routes]
   }
 
-  migrateDatabase()
+  migrateDatabase
 }

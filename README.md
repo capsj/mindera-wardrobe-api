@@ -22,4 +22,6 @@ curl 'http://localhost:9000/clothing/search?term=iWalk'
 curl --request POST 'http://localhost:9000/clothing/1/tag?outfitName=test2'
 ```
 ### List clothing items
-
+```
+curl 'http://localhost:9000/clothing/view'
+```

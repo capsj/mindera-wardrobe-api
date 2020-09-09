@@ -8,7 +8,7 @@ import models.CategoryName
 import models.ClothingItemId
 
 case class CategoryRow(id: CategoryId, name: CategoryName)
-case class ClothingItemCategoryRow(id: Option[Int], clothingItemId: Int, categoryId: Int)
+case class ClothingItemCategoryRow(id: Int, clothingItemId: Int, categoryId: Int)
 
 class CategoryTable(tag: Tag) extends Table[CategoryRow](tag, Some("public"), "category") {
   def id   = column[Int]("id", O.PrimaryKey, O.AutoInc)
@@ -22,7 +22,7 @@ class ClothingItemCategoryTable(tag: Tag) extends Table[ClothingItemCategoryRow]
   def clothingItemId = column[Int]("clothing_item_id")
   def categoryId     = column[Int]("category_id")
 
-  override def * = (id.?, clothingItemId, categoryId).mapTo[ClothingItemCategoryRow]
+  override def * = (id, clothingItemId, categoryId).mapTo[ClothingItemCategoryRow]
 }
 
 trait CategoryRepository {

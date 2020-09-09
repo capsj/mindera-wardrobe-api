@@ -31,10 +31,8 @@ trait SlickDatabaseComponents extends DatabaseComponents with SlickComponents wi
   private val databasePassword = dbConfig.getString("password")
   private val migrationsLocation = "db/migration"
 
-  lazy val cleanDb = Try(dbConfig.getBoolean("clean")).getOrElse(false)
-
-  final def migrateDatabase(doClean: Boolean = true): Unit =
-    Try(performMigration(doClean)) match {
+  final def migrateDatabase: Unit =
+    Try(performMigration) match {
       case Success(migrationsApplied: Int) =>
         logger.info(s"Migration completed successfully: applied $migrationsApplied migrations")
         ()
@@ -44,22 +42,17 @@ trait SlickDatabaseComponents extends DatabaseComponents with SlickComponents wi
         Await.result(application.stop(), FiniteDuration(10, "s"))
     }
 
-  private def performMigration(doClean: Boolean): Int = {
+  private def performMigration: Int = {
     val flyway = Flyway
       .configure()
       .locations(Seq(migrationsLocation): _*)
       .dataSource(databaseUrl, databaseUsername, databasePassword)
-      .cleanDisabled(!doClean)
       .load()
 
     logger.info(s"Flyway migration intiating for $databaseUrl...")
 
-    flyway.info().all().foreach(i => logger.info(s"${i.getVersion} ${i.getDescription} : ${i.getState}"))
-
-    if (doClean) {
-      logger.info("Performing flyway clean...")
-      flyway.clean()
-    }
+    logger.info("Performing flyway clean...")
+    flyway.clean()
 
     flyway.migrate()
   }
