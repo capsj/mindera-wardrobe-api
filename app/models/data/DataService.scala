@@ -4,7 +4,6 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
 import akka.Done
-import cats.data.OptionT
 import models.CategoryName
 import models.ClothingItemName
 import slick.dbio.DBIOAction
