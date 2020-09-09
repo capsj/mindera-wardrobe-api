@@ -3,7 +3,6 @@ import sbt._
 object Version {
   val akka           = "2.6.8"
   val cats           = "2.1.1"
-  val logback        = "1.2.3"
   val flyway         = "6.5.4"
   val macwire        = "2.3.7"
   val postgresDriver = "42.2.5"
