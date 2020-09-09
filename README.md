@@ -14,7 +14,7 @@ $ sbt run
 
 ### CSV upload
 ```
-$ curl --request POST 'http://localhost:9000/clothing/csv' --form 'file=${PATH_TO_CSV_FILE}'
+$ curl 'http://localhost:9000/clothing/csv' --form 'file=@./public/clothing.csv'
 ```
 
 ### Search clothing items by name
@@ -24,7 +24,7 @@ $ curl 'http://localhost:9000/clothing/search?term=iWalk'
 
 ### Tag clothing item as part of an outfit
 ```
-$ curl --request POST 'http://localhost:9000/clothing/1/tag?outfitName=test2'
+$ curl --request POST 'http://localhost:9000/clothing/1/tag?outfitName=summer'
 ```
 ### List clothing items
 ```
