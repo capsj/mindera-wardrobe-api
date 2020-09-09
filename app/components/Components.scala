@@ -6,9 +6,9 @@ import controllers.AssetsComponents
 import controllers.ClothingController
 import controllers.CsvReader
 import controllers.CsvReaderImpl
-import models.data.DataRepository
-import models.data.DataService
-import models.data.DataServiceImpl
+import data.DataRepository
+import data.DataService
+import data.DataServiceImpl
 import play.api.ApplicationLoader.Context
 import play.api.BuiltInComponentsFromContext
 import play.api.libs.ws.ahc.AhcWSComponents

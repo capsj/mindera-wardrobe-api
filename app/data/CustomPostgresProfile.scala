@@ -1,4 +1,4 @@
-package models.data
+package data
 
 import com.github.tminglei.slickpg._
 import play.api.libs.json.Format

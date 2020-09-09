@@ -2,7 +2,7 @@ package controllers
 
 import com.softwaremill.macwire.wire
 import com.typesafe.config.Config
-import models.data.DataService
+import data.DataService
 import play.api.ApplicationLoader.Context
 import play.api.BuiltInComponentsFromContext
 import play.api.mvc.EssentialFilter

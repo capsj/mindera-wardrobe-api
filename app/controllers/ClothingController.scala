@@ -10,7 +10,7 @@ import cats.data.EitherT
 import cats.instances.future._
 import components.WritableInstances
 import io.scalaland.chimney.dsl._
-import models.data.DataService
+import data.DataService
 import models.ClothingItem
 import models.ClothingItemView
 import play.api.mvc.ControllerComponents

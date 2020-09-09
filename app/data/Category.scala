@@ -1,4 +1,4 @@
-package models.data
+package data
 
 import slick.lifted.TableQuery
 import slick.lifted.Tag

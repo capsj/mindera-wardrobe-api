@@ -1,7 +1,7 @@
 package controllers
 
 import components.WritableInstances
-import models.data.DataService
+import data.DataService
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.Suite
 import org.scalatest.matchers.should.Matchers

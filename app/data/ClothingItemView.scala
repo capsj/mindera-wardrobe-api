@@ -1,4 +1,4 @@
-package models.data
+package data
 
 import java.time.Instant
 

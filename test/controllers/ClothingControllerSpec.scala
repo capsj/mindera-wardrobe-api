@@ -10,10 +10,10 @@ import akka.http.scaladsl.model.MediaTypes
 import akka.stream.scaladsl.Source
 import akka.Done
 import io.scalaland.chimney.dsl._
-import models.data.CategoryRow
-import models.data.ClothingItemRow
-import models.data.ClothingItemViewRow
-import models.data.OutfitRow
+import data.CategoryRow
+import data.ClothingItemRow
+import data.ClothingItemViewRow
+import data.OutfitRow
 import models.ClothingItem
 import models.ClothingItemView
 import org.scalatest.concurrent.ScalaFutures

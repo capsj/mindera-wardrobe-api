@@ -1,4 +1,4 @@
-package models.data
+package data
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
