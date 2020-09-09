@@ -11,14 +11,12 @@ import data.DataService
 import data.DataServiceImpl
 import play.api.ApplicationLoader.Context
 import play.api.BuiltInComponentsFromContext
-import play.api.libs.ws.ahc.AhcWSComponents
 import play.api.mvc.EssentialFilter
 import play.api.routing.Router
 import router.Routes
 
 class Components(context: Context)
   extends BuiltInComponentsFromContext(context)
-  with AhcWSComponents
   with SlickDatabaseComponents
   with AssetsComponents {
 
