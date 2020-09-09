@@ -9,12 +9,17 @@ Start up a Postgres instance by running
 
 ### CSV upload
 ```
-curl --location --request POST 'http://localhost:9000/clothing/csv' --form 'file=${CSV_PATH}'
+curl --request POST 'http://localhost:9000/clothing/csv' --form 'file=${PATH_TO_CSV_FILE}'
 ```
 
-### Search by name
+### Search clothing items by name
 ```
-curl --location --request GET 'http://localhost:9000/clothing/search?term=iWalk'
+curl 'http://localhost:9000/clothing/search?term=iWalk'
 ```
 
+### Tag clothing item as part of an outfit
+```
+curl --request POST 'http://localhost:9000/clothing/1/tag?outfitName=test2'
+```
 ### List clothing items
+

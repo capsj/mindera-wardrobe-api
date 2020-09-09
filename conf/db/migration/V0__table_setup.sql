@@ -38,13 +38,12 @@ CREATE TABLE IF NOT EXISTS clothing_item_outfit
 
 CREATE VIEW vw_clothing_item_details AS
 SELECT ci.*,
-       json_agg(COALESCE(row_to_json(c), '[]'::json)) AS categories,
-       json_agg(COALESCE(row_to_json(o), '[]'::json)) AS outfits
+    COALESCE(json_agg(row_to_json(c)) FILTER (WHERE c IS NOT NULL), '[]') AS categories,
+    COALESCE(json_agg(row_to_json(o)) FILTER (WHERE o IS NOT NULL), '[]') AS outfits
 FROM clothing_item ci
-         LEFT JOIN clothing_item_category cic on cic.clothing_item_id = ci.id
-         LEFT JOIN category c ON c.id = cic.category_id
-         LEFT JOIN clothing_item_outfit cio ON cio.clothing_item_id = ci.id
-         LEFT JOIN outfit o ON o.id = cio.id
+    LEFT JOIN clothing_item_category cic on cic.clothing_item_id = ci.id
+    LEFT JOIN category c ON c.id = cic.category_id
+    LEFT JOIN clothing_item_outfit cio ON cio.clothing_item_id = ci.id
+    LEFT JOIN outfit o ON o.id = cio.id
 GROUP BY ci.id
 ;
-
