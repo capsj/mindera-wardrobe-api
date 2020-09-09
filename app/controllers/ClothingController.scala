@@ -10,9 +10,9 @@ import cats.data.EitherT
 import cats.instances.future._
 import components.WritableInstances
 import io.scalaland.chimney.dsl._
-import models.api.ClothingItem
-import models.api.ClothingItemView
 import models.data.DataService
+import models.ClothingItem
+import models.ClothingItemView
 import play.api.mvc.ControllerComponents
 import play.api.libs.Files.TemporaryFile
 import play.api.mvc.AbstractController
@@ -63,7 +63,7 @@ class ClothingController(cc: ControllerComponents, dataService: DataService, csv
       } yield Ok).merge
     }
 
-  def tagClothes(itemId: Int, outfitName: String) =
+  def tagClothingItem(itemId: Int, outfitName: String) =
     Action.async { _ =>
       dataService
         .tagClothingItem(itemId, outfitName)

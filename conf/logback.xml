@@ -35,11 +35,7 @@
   <logger name="play-logging" level="INFO" class="play.api.Logger" />
   <logger name="application" level="DEBUG" />
 
-  <logger name="models.data.ClothingItemRepository" level="INFO" />
-  <logger name="models.data.DataRepository" level="INFO" />
-
   <root level="INFO">
-    <!--<appender-ref ref="ASYNCFILE" />-->
     <appender-ref ref="ASYNCSTDOUT" />
   </root>
 

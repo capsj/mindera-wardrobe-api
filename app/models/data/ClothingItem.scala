@@ -7,7 +7,6 @@ import slick.lifted.Tag
 import CustomPostgresProfile.api._
 import models.ClothingItemId
 import models.ClothingItemName
-import play.api.Logging
 
 case class ClothingItemRow(id: ClothingItemId, name: ClothingItemName, uploadedAt: Instant, updatedAt: Instant)
 
@@ -20,16 +19,13 @@ class ClothingItemTable(tag: Tag) extends Table[ClothingItemRow](tag, Some("publ
   override def * = (id, name, uploadedAt, updatedAt).mapTo[ClothingItemRow]
 }
 
-trait ClothingItemRepository extends Logging {
+trait ClothingItemRepository {
   object clothingItem {
     val table = TableQuery[ClothingItemTable]
 
     object queries {
-      def byName(name: ClothingItemName) = {
-        val query = table.filter(_.name like s"%$name%").result
-        logger.warn(s"${query.statements}")
-        query
-      }
+      def byName(name: ClothingItemName) =
+        table.filter(_.name like s"%$name%").result
     }
 
     object actions {

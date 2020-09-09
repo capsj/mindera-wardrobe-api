@@ -1,5 +1,4 @@
 package object models {
-
   type ClothingItemId = Int
   type ClothingItemName = String
   type CategoryId = Int

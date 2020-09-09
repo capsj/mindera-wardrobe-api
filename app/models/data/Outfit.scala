@@ -28,8 +28,8 @@ trait OutfitRepository {
     val clothingOutfitTable = TableQuery[ClothingItemOutfitTable]
 
     object queries {
-      def byId(id: Int) =
-        outfitTable.filter(row => row.id === id).result.headOption
+      def byName(name: String) =
+        outfitTable.filter(_.name === name).result.headOption
     }
 
     object actions {

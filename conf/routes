@@ -10,4 +10,4 @@ GET     /clothing/view                             controllers.ClothingControlle
 
 POST    /clothing/csv                              controllers.ClothingController.uploadCsv
 
-POST    /clothing/:itemId/tag                      controllers.ClothingController.tagClothes(itemId: Int, outfitName: String)
+POST    /clothing/:itemId/tag                      controllers.ClothingController.tagClothingItem(itemId: Int, outfitName: String)

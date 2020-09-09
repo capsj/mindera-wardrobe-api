@@ -7,13 +7,7 @@ import play.api.libs.json.Json
 import slick.jdbc.JdbcCapabilities
 
 object CustomPostgresProfile extends CustomPostgresProfile
-trait CustomPostgresProfile
-  extends ExPostgresProfile
-  with PgEnumSupport
-  with PgSearchSupport
-  with PgArraySupport
-  with PgDate2Support
-  with PgPlayJsonSupport {
+trait CustomPostgresProfile extends ExPostgresProfile with PgArraySupport with PgPlayJsonSupport {
 
   /** For Postgres 9.4.0 and newer. */
   def pgjson = "jsonb"
@@ -25,9 +19,8 @@ trait CustomPostgresProfile
     super.computeCapabilities + JdbcCapabilities.insertOrUpdate
 
   object CustomApi extends super.API with ArrayImplicits with SimpleArrayPlainImplicits with JsonImplicits {
-
     implicit val categoryRowFormat: Format[CategoryRow] = Json.format
-    implicit val outfitRowFormat: Format[OutfitRow] = Json.format
+    implicit val outfitRowFormat: Format[OutfitRow]     = Json.format
 
     implicit val StringListMapper: BaseColumnType[Seq[String]] =
       MappedColumnType.base[Seq[String], JsValue](Json.toJson(_), _.as[List[String]])
