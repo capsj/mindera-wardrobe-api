@@ -5,6 +5,7 @@ import slick.lifted.Tag
 import CustomPostgresProfile.api._
 import models.CategoryId
 import models.CategoryName
+import models.ClothingItemId
 
 case class CategoryRow(id: CategoryId, name: CategoryName)
 case class ClothingItemCategoryRow(id: Option[Int], clothingItemId: Int, categoryId: Int)
@@ -38,8 +39,8 @@ trait CategoryRepository {
       def insertOrUpdate(categoryName: CategoryName) =
         table.map(_.name).returning(table.map(_.id)) += categoryName
 
-      def insertOrUpdate(clothingItemCategoryRow: ClothingItemCategoryRow) =
-        clothingItemCategoryTable.insertOrUpdate(clothingItemCategoryRow)
+      def insertOrUpdate(clothingItemId: ClothingItemId, categoryId: CategoryId) =
+        clothingItemCategoryTable.map(r => (r.clothingItemId, r.categoryId)) += (clothingItemId, categoryId)
     }
   }
 }

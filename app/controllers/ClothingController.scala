@@ -12,8 +12,6 @@ import components.WritableInstances
 import io.scalaland.chimney.dsl._
 import models.api.ClothingItem
 import models.api.ClothingItemView
-import models.data.CategoryRow
-import models.data.ClothingItemRow
 import models.data.DataService
 import play.api.mvc.ControllerComponents
 import play.api.Logging
@@ -69,7 +67,8 @@ class ClothingController(cc: ControllerComponents, dataService: DataService)(imp
 
   def tagClothes(itemId: Int, outfitName: String) =
     Action.async { _ =>
-      Future.successful(Ok)
+      dataService.tagClothingItem(itemId, outfitName)
+        .map(_ => Ok)
     }
 
 }

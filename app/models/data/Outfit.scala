@@ -3,6 +3,7 @@ package models.data
 import slick.lifted.TableQuery
 import slick.lifted.Tag
 import CustomPostgresProfile.api._
+import models.ClothingItemId
 
 case class OutfitRow(id: Option[Int], name: String)
 case class ClothingItemOutfitRow(id: Option[Int], clothingItemId: Int, outfitId: Int)
@@ -34,10 +35,10 @@ trait OutfitRepository {
 
     object actions {
       def insertOrUpdateOutfit(name: String) =
-        outfitTable.returning(outfitTable).insertOrUpdate(OutfitRow(None, name))
+        outfitTable.map(_.name).returning(outfitTable.map(_.id)) += name
 
       def tagClothingItem(clothingItemId: Int, outfitId: Int) =
-        clothingOutfitTable.insertOrUpdate(ClothingItemOutfitRow(None, clothingItemId, outfitId))
+        clothingOutfitTable.map(r => (r.clothingItemId, r.outfitId)) += (clothingItemId, outfitId)
     }
   }
 }

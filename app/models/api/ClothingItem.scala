@@ -10,11 +10,6 @@ object ClothingItem {
   implicit val format: Format[ClothingItem] = Json.format
 }
 
-//case class SearchClothingItemResponse(items: Seq[ClothingItem])
-//object SearchClothingItemResponse {
-//  implicit val format: OFormat[SearchClothingItemResponse] = Json.format
-//}
-
 case class Category(id: Option[Int], name: String)
 object Category {
   implicit val format: Format[Category] = Json.format

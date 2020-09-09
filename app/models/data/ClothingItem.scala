@@ -25,8 +25,11 @@ trait ClothingItemRepository extends Logging {
     val table = TableQuery[ClothingItemTable]
 
     object queries {
-      def byName(name: ClothingItemName) =
-        table.filter(row => row.name.like(name)).result
+      def byName(name: ClothingItemName) = {
+        val query = table.filter(_.name like s"%$name%").result
+        logger.warn(s"${query.statements}")
+        query
+      }
     }
 
     object actions {

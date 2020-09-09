@@ -6,14 +6,13 @@ import scala.concurrent.Future
 import akka.Done
 import models.CategoryName
 import models.ClothingItemName
-import play.api.Logging
 
 trait DataService {
   def insertClothingItem(clothingItemName: ClothingItemName, categoryName: CategoryName): Future[Done]
   def searchByName(name: String): Future[Seq[ClothingItemRow]]
 
-  def tagClothingItem(clothingItemId: Int, outfitId: Int): Future[Done]
   def getClothingListView: Future[Seq[ClothingItemViewRow]]
+  def tagClothingItem(clothingItemId: Int, outfitName: String): Future[Done]
 }
 
 class DataServiceImpl(
@@ -27,16 +26,22 @@ class DataServiceImpl(
       for {
         clothingItemId <- dataRepository.clothingItem.actions.insertOrUpdate(clothingItemName)
         categoryId     <- dataRepository.category.actions.insertOrUpdate(categoryName)
-        _              <- dataRepository.category.actions.insertOrUpdate(ClothingItemCategoryRow(None, clothingItemId, categoryId))
+        _              <- dataRepository.category.actions.insertOrUpdate(clothingItemId, categoryId)
       } yield Done
     }
 
   override def searchByName(name: String): Future[Seq[ClothingItemRow]] =
     db.run(dataRepository.clothingItem.queries.byName(name))
 
-  override def tagClothingItem(clothingItemId: Int, outfitId: Int): Future[Done] =
-    db.run(dataRepository.outfit.actions.tagClothingItem(clothingItemId, outfitId))
-      .map(_ => Done)
+  override def tagClothingItem(clothingItemId: Int, outfitName: String): Future[Done] = {
+    db.run {
+      for {
+        outfitId <- dataRepository.outfit.actions.insertOrUpdateOutfit(outfitName)
+        _ <- dataRepository.outfit.actions.tagClothingItem(clothingItemId, outfitId)
+      } yield Done
+
+    }
+  }
 
   override def getClothingListView: Future[Seq[ClothingItemViewRow]] =
     db.run(dataRepository.clothingItemView.queries.list)
